@@ -36,18 +36,22 @@ $this->layout->content = View::make('dashboard.index')->withTitle('Dashboard');
  // authentikasi user
  $user = Sentry::authenticate($credentials, false);
  // Redirect user ke dashboard
- return Redirect::to('dashboard');
- } catch (Exception $e) {
- // kembalikan user ke halaman sebelumnya (login)
- return Redirect::back();
- }
+ return Redirect::intended('dashboard');
+} catch (Cartalyst\Sentry\Users\WrongPasswordException $e) {
+return Redirect::back()->with('errorMessage', 'Password yang Anda masukan salah.');
+} catch (Exception $e) {
+return Redirect::back()->with('errorMessage', trans('Akun dengan email tersebut tidak ditemukan di sistem kami.'));
+}
+
  }
  public function logout()
  {
  // Logout user
  Sentry::logout();
  // Redirect user ke halaman login
- return Redirect::to('login');
+
+return Redirect::to('login')->with('successMessage', 'Anda berhasil logout.');
+
  }
 
 

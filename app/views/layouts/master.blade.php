@@ -22,6 +22,8 @@
 </nav>
 <div class="uk-container-center uk-margin-top">
 <ul class="uk-breadcrumb">
+@include('layouts.partials.alert')
+
 @yield('breadcrumb')
 </ul>
 <h1 class="uk-heading-large">@yield('title')</h1>
