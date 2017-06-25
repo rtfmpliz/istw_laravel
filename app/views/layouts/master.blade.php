@@ -14,9 +14,10 @@
 @yield('nav')
 </ul>
 <div class="uk-navbar-flip uk-navbar-content">
-<a href="#">Admin</a> |
-<a href="#">Keluar</a>
+<a href="#">{{ Sentry::getUser()->first_name . ' ' .Sentry::getUser()->last_name }}</a> |
+<a href="{{ URL::to('logout') }}">Logout</a>
 </div>
+
 <div class="uk-navbar-brand uk-navbar-center uk-visible-small">ISTW</div>
 </nav>
 <div class="uk-container-center uk-margin-top">

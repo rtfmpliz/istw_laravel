@@ -4,8 +4,24 @@
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"require": {
-		"laravel/framework": "4.2.*"
+		"laravel/framework": "4.2.*",
+
+			"cartalyst/sentry": "2.1.4",
+"uikit/uikit": "2.8.*",
+"components/jquery": "2.1.0",
+"way/generators": "2.6.*",
+"datatables/datatables": "1.10.0",
+"chumper/datatable": "2.3",
+"ivaynberg/select2": "3.5.0",
+"greggilbert/recaptcha": "1.0.7",
+"maatwebsite/excel": "1.1.5",
+"barryvdh/laravel-dompdf": "0.4.4",
+		"yajra/laravel-datatables-oracle": "3.x"
+
 	},
+	"require-dev" : {
+ "way/generators": "2.*"
+ },
 	"autoload": {
 		"classmap": [
 			"app/commands",
@@ -32,7 +48,7 @@
 	"config": {
 		"preferred-install": "dist",
  		"component-dir": "public/components"
-,
+
 
 	},
 	"minimum-stability": "stable"
