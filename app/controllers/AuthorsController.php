@@ -19,10 +19,12 @@ class AuthorsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function create()
-	{
-		return View::make('authors.create');
-	}
+ public function create()
+ {
+ return View::make('authors.create')->withTitle('Tambah Penulis');
+ }
+
+
 
 	/**
 	 * Store a newly created author in storage.

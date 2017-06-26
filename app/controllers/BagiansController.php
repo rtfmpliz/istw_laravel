@@ -7,12 +7,22 @@ class BagiansController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function index()
-	{
-		$bagians = Bagian::all();
+ public function index()
+ {
+ if(Datatable::shouldHandle())
+ {
+ return Datatable::collection(Bagian::all(array('id','name')))
+ ->showColumns('id', 'name')
+ ->addColumn('', function ($model) {
+ return 'edit | hapus';
+ })
+ ->searchColumns('name')
+ ->orderColumns('name')
+ ->make();
+ }
+ return View::make('bagians.index')->withTitle('Bagian');
+ }
 
-		return View::make('bagians.index', compact('bagians'));
-	}
 
 	/**
 	 * Show the form for creating a new bagian
@@ -21,7 +31,7 @@ class BagiansController extends \BaseController {
 	 */
 	public function create()
 	{
-		return View::make('bagians.create');
+		return View::make('bagians.create')->withTitle('Tambah Bagian');
 	}
 
 	/**
@@ -29,19 +39,18 @@ class BagiansController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function store()
-	{
-		$validator = Validator::make($data = Input::all(), Bagian::$rules);
+ public function store()
+ {
+ $validator = Validator::make($data = Input::all(), Bagian::$rules);
+ if ($validator->fails())
+ {
+ return Redirect::back()->withErrors($validator)->withInput();
+ }
+ $bagian = Bagian::create($data);
+ return Redirect::route('admin.bagians.index')->with("successMessage", "Berhasil menyi\
+ mpan $bagian->name ");
+ }
 
-		if ($validator->fails())
-		{
-			return Redirect::back()->withErrors($validator)->withInput();
-		}
-
-		Bagian::create($data);
-
-		return Redirect::route('bagians.index');
-	}
 
 	/**
 	 * Display the specified bagian.

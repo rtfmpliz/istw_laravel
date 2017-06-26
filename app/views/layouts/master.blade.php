@@ -3,8 +3,10 @@
 <head>
 <title>@yield('title') | ISTW </title>
 <link rel="stylesheet" href="{{ asset('packages/uikit/css/uikit.almost-flat.min.css')}}" />
-<script src="{{ asset('components/jquery/jquery.min.js')}}"></script>
+ <link rel="stylesheet" href="{{ asset('css/app.css')}}" />
+ <script src="{{ asset('components/jquery/jquery.min.js')}}"></script>
 <script src="{{ asset('packages/uikit/js/uikit.min.js')}}"></script>
+@yield('asset')
 </head>
 <body>
 <div class="uk-container uk-container-center uk-margin-top">
@@ -26,7 +28,12 @@
 
 @yield('breadcrumb')
 </ul>
-<h1 class="uk-heading-large">@yield('title')</h1>
+ <h1 class="uk-heading-large">
+ @yield('title')
+ @yield('title-button')
+
+ </h1>
+@include('layouts.partials.validation')
 @yield('content')
 </div>
 </div>

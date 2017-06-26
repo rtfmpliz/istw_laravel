@@ -6,6 +6,7 @@
 <li><a href="#">Member</a></li>
 <li><a href="#">Peminjaman</a></li>
 @stop
+@include('layouts.partials.alert')
 @section('breadcrumb')
 <li>{{ $title }}</li>
 @stop

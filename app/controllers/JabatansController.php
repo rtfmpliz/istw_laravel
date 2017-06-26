@@ -7,13 +7,24 @@ class JabatansController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function index()
-	{
-		$jabatans = Jabatan::all();
 
-		return View::make('jabatans.index', compact('jabatans'));
-	}
+ public function index()
+ {
+ if(Datatable::shouldHandle())
+ {
+ return Datatable::collection(Jabatan::all(array('id','name')))
+ ->showColumns('id', 'name')
+ ->addColumn('', function ($model) {
+ return 'edit | hapus';
+ })
+ ->searchColumns('name')
+ ->orderColumns('name')
+ ->make();
+ }
+ return View::make('jabatans.index')->withTitle('jabatan');
+ }
 
+ 
 	/**
 	 * Show the form for creating a new jabatan
 	 *
@@ -21,7 +32,7 @@ class JabatansController extends \BaseController {
 	 */
 	public function create()
 	{
-		return View::make('jabatans.create');
+		return View::make('jabatans.create')->withTitle('Tambah Jabatan');
 	}
 
 	/**
@@ -29,19 +40,16 @@ class JabatansController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function store()
-	{
-		$validator = Validator::make($data = Input::all(), Jabatan::$rules);
-
-		if ($validator->fails())
-		{
-			return Redirect::back()->withErrors($validator)->withInput();
-		}
-
-		Jabatan::create($data);
-
-		return Redirect::route('jabatans.index');
-	}
+ public function store()
+ {
+ $validator = Validator::make($data = Input::all(), Jabatan::$rules);
+ if ($validator->fails())
+ {
+ return Redirect::back()->withErrors($validator)->withInput();
+ }
+ $jabatan = Jabatan::create($data);
+ return Redirect::route('admin.jabatans.index')->with("successMessage", "Berhasil menyimpan $jabatan->name ");
+ }
 
 	/**
 	 * Display the specified jabatan.
