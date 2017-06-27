@@ -14,8 +14,9 @@ class BagiansController extends \BaseController {
  return Datatable::collection(Bagian::all(array('id','name')))
  ->showColumns('id', 'name')
  ->addColumn('', function ($model) {
- return 'edit | hapus';
+ return '<a href="'.route('admin.bagians.edit', ['bagians'=>$model->id]).'">edit</a> | hapus';
  })
+
  ->searchColumns('name')
  ->orderColumns('name')
  ->make();
@@ -71,34 +72,27 @@ class BagiansController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
-	{
-		$bagian = Bagian::find($id);
+ public function edit($id)
+ {
+ $bagian = Bagian::find($id);
+ return View::make('bagians.edit', ['bagian'=>$bagian])->withTitle("Ubah $bagian->name");
+ }
 
-		return View::make('bagians.edit', compact('bagian'));
-	}
+	 
+ public function update($id)
+ {
+ $bagian = Bagian::findOrFail($id);
+ $validator = Validator::make($data = Input::all(), $bagian->updateRules());
+ if ($validator->fails())
+ {
+ return Redirect::back()->withErrors($validator)->withInput();
+ }
+ $bagian->update($data);
+ return Redirect::route('admin.bagians.index')->with("successMessage", "Berhasil menyi\
+ mpan $bagian->name ");
+ }
+ 
 
-	/**
-	 * Update the specified bagian in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		$bagian = Bagian::findOrFail($id);
-
-		$validator = Validator::make($data = Input::all(), Bagian::$rules);
-
-		if ($validator->fails())
-		{
-			return Redirect::back()->withErrors($validator)->withInput();
-		}
-
-		$bagian->update($data);
-
-		return Redirect::route('bagians.index');
-	}
 
 	/**
 	 * Remove the specified bagian from storage.
@@ -106,11 +100,13 @@ class BagiansController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
-	{
-		Bagian::destroy($id);
 
-		return Redirect::route('bagians.index');
-	}
+ public function destroy($id)
+ {
+ Bagian::destroy($id);
+ return Redirect::route('admin.bagians.index')->with('successMessage', 'Penulis berhasil dihapus.');
+ }
+
+
 
 }

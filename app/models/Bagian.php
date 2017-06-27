@@ -1,6 +1,6 @@
 <?php
 
-class Bagian extends \Eloquent {
+class Bagian extends BaseModel {
 
 	// Add your validation rules here
 	public static $rules = [ 'name' => 'required|unique:bagians'
